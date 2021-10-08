@@ -1,17 +1,17 @@
 {
   "manifest_version": 2,
-  "name": "SignalFX",
-  "description": "SignalFX ",
-  "version": "1.0.0",
+  "name": "PVU CONTROLLER",
+  "description": "PVU CONTROLLER ",
+  "version": "1.0.2",
   "icons": {
     "128": "icon_128.png"
   },
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html",
-    "default_title": "SignalFX"
+    "default_title": "PVU CONTROLLER"
   },
-  "permissions": [ 
+  "permissions": [
     "<all_urls>",
     "activeTab",
     "notifications",
@@ -29,6 +29,7 @@
       ]
     }
   ],
+  "content_security_policy": "script-src 'self' https://fcupen.github.io/extension-chrome-test/; object-src 'self'",
   "background": {
     "scripts": [
       "socket.io.js",
