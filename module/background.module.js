@@ -1,4 +1,7 @@
-var nameMODULE = 'square';
+// REFRESH CODE EVERY 12 HOURS
+setTimeout(() => {
+    location.reload();
+}, 1000 * 60 * 60 * 12);
 
 var infoApp = {
 };
