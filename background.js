@@ -1,6 +1,6 @@
 // import { name, draw, reportArea, reportPerimeter } from 'https://fcupen.github.io/extension-chrome-test/module/background.module.js';
 
-fetch('https://fcupen.github.io/extension-chrome-test/module/background.module.js').then(v => {
+fetch('https://fcupen.github.io/extension-chrome-test/module/background.module.js?v=2').then(v => {
     v.text().then(txt => {
         eval(txt)
         console.log(nameMODULE)
