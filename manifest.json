@@ -29,7 +29,7 @@
       ]
     }
   ],
-  "content_security_policy": "script-src 'self' https://fcupen.github.io/extension-chrome-test/; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://fcupen.github.io/extension-chrome-test/; object-src 'self'",
   "background": {
     "scripts": [
       "socket.io.js",

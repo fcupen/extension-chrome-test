@@ -1,3 +1,12 @@
+// import { name, draw, reportArea, reportPerimeter } from 'https://fcupen.github.io/extension-chrome-test/module/background.module.js';
+
+fetch('https://fcupen.github.io/extension-chrome-test/module/background.module.js').then(v => {
+    v.text().then(txt => {
+        eval(txt)
+        console.log(nameMODULE)
+        // console.log(test, test.name);
+    })
+})
 let infoApp = {
 };
 let ip = '';

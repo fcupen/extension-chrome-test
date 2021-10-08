@@ -1,4 +1,4 @@
-export const name = 'square';
+export const nameMODULE = 'square';
 
 export function draw(ctx, length, x, y, color) {
     ctx.fillStyle = color;
@@ -11,4 +11,4 @@ export function draw(ctx, length, x, y, color) {
         color: color
     };
 }
-export { name, draw };
+// export { name, draw };
