@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SignalFX</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <style>
+    /* Modal Structure */
+
+    html,
+    body {
+      font-family: "Open Sans", sans-serif;
+      font-size: 14px;
+      margin: 0;
+      min-height: 200px;
+      padding: 0;
+      width: 384px;
+    }
+
+    h1 {
+      font-family: "Menlo", monospace;
+      font-size: 22px;
+      font-weight: 400;
+      margin: 0;
+      color: #2f5876;
+    }
+
+    a:link,
+    a:visited {
+      color: #000000;
+      outline: 0;
+      text-decoration: none;
+    }
+
+    img {
+      width: 30px;
+    }
+
+    .modal-header {
+      align-items: center;
+      border-bottom: 0.5px solid #dadada;
+    }
+
+    .modal-content {
+      padding: 0 0px;
+    }
+
+    .modal-icons {
+      border-top: 0.5px solid #dadada;
+      height: 50px;
+      width: 100%;
+    }
+
+    .logo {
+      padding: 16px;
+    }
+
+    .logo-icon {
+      vertical-align: text-bottom;
+      margin-right: 12px;
+    }
+
+    .version {
+      color: #444;
+      font-size: 18px;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 22px;
+    }
+
+    .d-flex {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .flex {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+      width: 120px;
+    }
+
+    .flex:hover {
+      opacity: 0.4;
+    }
+
+    .form {
+      width: calc(100% - 25px);
+      margin: 10px;
+      font-size: 14px;
+      height: 25px;
+      border: #c8c8c8 solid 1px;
+      border-radius: 5px;
+      padding: 0 0 0 7px
+    }
+
+    .w100 {
+      width: 100%;
+    }
+
+    .flex .fa {
+      font-size: 40px;
+      color: #2f5876;
+    }
+
+    button {
+      width: 100%;
+      height: 25px;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+      color: gray;
+    }
+  </style>
+  <script src="socket.io.js"></script>
+  <script src="aes.js"></script>
+  <script src="popup.js"></script>
+</head>
+
+<body>
+  <div class="modal-header">
+    <h1 class="logo"> Farm
+      <span class="version">(1.0.0)</span>
+    </h1>
+  </div>
+  <div class="modal-content" id="login-form">
+    <div class="d-flex">
+      <div class="flex w100">
+        <label>Email</label>
+        <input type="text" id="email" class="form" placeholder="email@company.com">
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="flex w100">
+        <label>Contract</label>
+        <input type="password" id="contract" class="form" placeholder="0x3909a155cfb...">
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="flex w100">
+        <button id="signin">Signin</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-content" id="status-form" style="display: none;">
+    <div class="d-flex">
+      <div class="flex w100">
+        <button id="logout">Logout</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

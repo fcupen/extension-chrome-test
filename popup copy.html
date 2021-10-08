@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SignalFX</title>
+  <style>
+    /* Modal Structure */
+
+    html,
+    body {
+      font-family: "Open Sans", sans-serif;
+      font-size: 14px;
+      margin: 0;
+      min-height: 200px;
+      padding: 0;
+      width: 384px;
+    }
+
+    h1 {
+      font-family: "Menlo", monospace;
+      font-size: 22px;
+      font-weight: 400;
+      margin: 0;
+      color: #2f5876;
+    }
+
+    a:link,
+    a:visited {
+      color: #000000;
+      outline: 0;
+      text-decoration: none;
+    }
+
+    img {
+      width: 30px;
+    }
+
+    .modal-header {
+      align-items: center;
+      border-bottom: 0.5px solid #dadada;
+    }
+
+    .modal-content {
+      padding: 0 0px;
+    }
+
+    .modal-icons {
+      border-top: 0.5px solid #dadada;
+      height: 50px;
+      width: 100%;
+    }
+
+    .logo {
+      padding: 16px;
+    }
+
+    .logo-icon {
+      vertical-align: text-bottom;
+      margin-right: 12px;
+    }
+
+    .version {
+      color: #444;
+      font-size: 18px;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 22px;
+    }
+
+    .d-flex {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .flex {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+      width: 120px;
+    }
+
+    .flex:hover {
+      opacity: 0.4;
+    }
+
+    .form {
+      width: calc(100% - 25px);
+      margin: 10px;
+      font-size: 14px;
+      height: 25px;
+      border: #c8c8c8 solid 1px;
+      border-radius: 5px;
+      padding: 0 0 0 7px
+    }
+
+    .w100 {
+      width: 100%;
+    }
+
+    .flex .fa {
+      font-size: 40px;
+      color: #2f5876;
+    }
+
+    button {
+      width: 100%;
+      height: 25px;
+      border: 1px solid lightgray;
+      border-radius: 4px;
+      color: gray;
+    }
+  </style>
+  <script>
+
+    // Ejemplo implementando el metodo POST:
+    function getData(url = 'https://backend-farm.plantvsundead.com/get-plant-detail-v2?plantId=1011910930') {
+      // Opciones por defecto estan marcadas con un *
+      fetch(url, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer Token: ' + 'token'
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      }).then((response) => {
+        console.log(response.json());
+      });
+      // parses JSON response into native JavaScript objects
+    }
+  </script>
+</head>
+
+<body> 
+        <button id="logout" onclick="getData()">Logout</button> 
+</body>
+
+</html>
