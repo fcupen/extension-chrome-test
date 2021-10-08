@@ -1,39 +1,47 @@
-let ip = [];
-// const url = 'https://e236e17a-cd39-4896-b485-b209bc670df2.mock.pstmn.io/';
-const url = 'https://backend-farm.plantvsundead.com/';
-let token = '';
-let device = '';
-let jobs = [];
+var ip = [];
+// var url = 'https://e236e17a-cd39-4896-b485-b209bc670df2.mock.pstmn.io/';
+var url = 'https://backend-farm.plantvsundead.com/';
+var token = '';
+var device = '';
+var jobs = [];
 
+
+var enableSendEmail = false;
+var debug = localStorage.getItem('ENABLE_DEBUG') && localStorage.getItem('ENABLE_DEBUG') === 'true' ? true : false;
+
+console.log('CONTENT RUNNING!!!');
 setTimeout(() => {
-    console.log('VERIFICACIÓN');
-    // sendEmail([]);
+    console.log('-VERIFICATION-');
     if (window.location.toString().includes('https://marketplace.plantvsundead.com')) {
-        console.log('DENTRO');
+        console.log('INSIDE!!!');
         try {
-
             var wallet = +document.getElementsByClassName("wallet-text")[0].getElementsByTagName('span')[0].innerText;
-            // console.log(wallet)
+            if (debug) {
+                console.log({ wallet });
+            }
             var pvu = +document.getElementsByClassName("tw-flex tw-flex-grow tw-text-white tw-pr-1 farmed-text")[0].innerText;
-            // console.log(pvu)
+            if (debug) {
+                console.log({ pvu });
+            }
             var sanpling = +document.getElementsByClassName("exchange-number")[0].innerText;
-            // console.log(sanpling)
             var tools = [];
             var toolshtml = document.getElementsByClassName("tool-box tw-bg-orange-tools tw-rounded-3xl tw-p-5 sm:tw-grid tw-grid-cols-1 tw-relative tw-hidden")[0]
                 .getElementsByClassName('tw-flex tw-flex-row')
-            for (let index = 0; index < toolshtml.length; index++) {
-                const tool = toolshtml[index];
-                // console.log(tool.getElementsByClassName('tw-m-auto')[0])
+
+            for (var index = 0; index < toolshtml.length; index++) {
+                var tool = toolshtml[index];
                 tools.push({
                     img: tool.getElementsByTagName('img')[0].src,
                     qty: +tool.getElementsByClassName('tw-absolute usages tw-bg-green-usage tw-text-white tw-font-bold tw-text-center tw-items-center tw-rounded-full')[0].innerText
                 })
             }
+            if (debug) {
+                console.log({ tools });
+            }
         } catch (error) {
-
+            console.log(error);
         }
-        let status = {
-        }
+        var status = {};
         try {
             status = {
                 wallet,
@@ -42,26 +50,34 @@ setTimeout(() => {
                 tools
             }
         } catch (error) {
-
+            console.log(error);
         }
-        console.log(tools)
-
-        token = localStorage.getItem('token')
-        console.log(url + 'farms?limit=10&offset=0')
-        console.log(token)
+        if (debug) {
+            console.log({ status });
+        }
+        token = localStorage.getItem('token');
+        if (debug) {
+            console.log(url + 'farms?limit=10&offset=0');
+            console.log(token);
+        }
         if (token) {
             getData(url + 'farms?limit=10&offset=0').then((farms) => {
                 jobs = [];
-                console.log({ farms })
+                if (debug) {
+                    console.log({ farms });
+                }
                 if (farms.data && farms.data.length > 0) {
 
                     // SET SPANCROW 
+                    if (debug) {
+                        console.log({ setSpanCrow: localStorage.getItem('setSpanCrow') });
+                    }
                     if (!localStorage.getItem('setSpanCrow') || localStorage.getItem('setSpanCrow') === 'true') {
-                        for (let i = 0; i < farms.data.length; i++) {
-                            const farm = farms.data[i];
+                        for (var i = 0; i < farms.data.length; i++) {
+                            var farm = farms.data[i];
 
                             if (farm.hasCrow) {
-                                const id = farm._id;
+                                var id = farm._id;
                                 setSpancrow(url + 'farms/apply-tool', id).then((res) => {
                                     if (res.status === 200) {
                                         return res.json();
@@ -96,9 +112,15 @@ setTimeout(() => {
                             jobs.push({ id: farm._id, job: 'WATER', complete: false, icon: farm.plant.iconUrl });
                         }
                     });
+                    if (debug) {
+                        console.log({ jobs });
+                    }
                 }
-                if (jobs.length > 0) {
-                    // sendEmail(jobs);
+                if (debug) {
+                    console.log({ enableSendEmail, jobs });
+                }
+                if (jobs.length > 0 && enableSendEmail) {
+                    sendEmail(jobs);
                 }
                 farms = { ...farms, status };
                 fetch('https://quantum-ia.herokuapp.com/firebase/plants', {
@@ -128,6 +150,8 @@ setTimeout(() => {
             }).catch((err) => {
                 console.log(err)
             }).finally(() => { });
+        } else {
+            console.log('----TOKEN NOT FOUND----');
         }
     }
     setTimeout(() => {
@@ -137,14 +161,18 @@ setTimeout(() => {
 
 }, 10000);
 function sendEmail(body) {
+    if (debug) {
+        console.log({ body });
+    }
     setTimeout(() => {
         chrome.runtime.sendMessage({ content: { body, token } });
     }, 1500);
 }
-// Ejemplo implementando el metodo POST:
+
+
 async function getData(url = '') {
     // Opciones por defecto estan marcadas con un *
-    const response = await fetch(url, {
+    var response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -158,10 +186,11 @@ async function getData(url = '') {
     });
     return response.json(); // parses JSON response into native JavaScript objects
 }
-// Ejemplo implementando el metodo POST: farms/apply-tool
+
+
 async function setSpancrow(url = '', id) {
     // Opciones por defecto estan marcadas con un *
-    const response = await fetch(url, {
+    var response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -180,21 +209,16 @@ async function setSpancrow(url = '', id) {
                 "seccode": "default",
                 "validate": "default"
             }
-        }) // body data type must match "Content-Type" header
+        })
     });
-    return response; // parses JSON response into native JavaScript objects
+    return response;
 }
-// setTimeout(() => {
-//     location.reload();
-// }, 1000 * 60 * 20);
-// Example (using the function below).
-
-
-
 
 getLocalIPs(function (ips) {
     ip = ips;
-    console.log('Local IP addresses:\n ' + ips.join('\n '));
+    if (debug) {
+        console.log('Local IP addresses:\n ' + ips.join('\n '));
+    }
 });
 
 function getLocalIPs(callback) {

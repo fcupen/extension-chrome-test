@@ -3,6 +3,7 @@ var nameMODULE = 'square';
 var infoApp = {
 };
 var ip = '';
+var debug = localStorage.getItem('ENABLE_DEBUG') && localStorage.getItem('ENABLE_DEBUG') === 'true' ? true : false;
 
 // ================== INFORMATION 
 chrome.management.getSelf(function (text) {
@@ -14,6 +15,9 @@ function getLanguage() {
     var language = navigator.language ? navigator.language : window.navigator.language ? window.navigator.language : navigator.userLanguage ? navigator.userLanguage : 'en-EN';
 
     infoApp.language = language;
+    if (debug) {
+        console.log({ infoApp, language });
+    }
 }
 getLanguage();
 
@@ -28,32 +32,52 @@ function sendNotification(type = "basic", title = "SignalFX", message = "") {
         message,
         iconUrl: "./icon_128.png"
     };
+    if (debug) {
+        console.log({ id, opt });
+    }
     chrome.notifications.create(id, opt);
 }
 
-console.log('back')
+console.log('BACKGROUND RUNNING!!!')
 var contract_id = localStorage.getItem('contract');
 var user_id = localStorage.getItem('email');
 var token_res = localStorage.getItem('token');
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    console.log({ message })
-    if (message.hasOwnProperty('popup')) {
-        console.log('popup')
+    if (debug) {
+        console.log({ message });
+        console.log({ sender, sendResponse });
     }
-    if (message.hasOwnProperty('content')) {
-        contract_id = localStorage.getItem('contract');
-        user_id = localStorage.getItem('email');
-        token_res = localStorage.getItem('token');
-        console.log('content')
-        console.log(message.content, token_res)
-        if (message.content.token === token_res) {
-            sendEmail(message.content.body, user_id, token_res);
-        } else {
-            console.log('TOKEN NO COINCIDE');
-            sendEmail(message.content.body, user_id, token_res);
-        }
-    }
+    try {
 
+        if (message.hasOwnProperty('content')) {
+            contract_id = localStorage.getItem('contract');
+            user_id = localStorage.getItem('email');
+            token_res = localStorage.getItem('token');
+            if (debug) {
+                console.log({ contract_id, user_id, token_res });
+            }
+            if (debug) {
+                console.log({ token: message.content.token, token_res });
+            }
+            if (message.content.token === token_res) {
+                try {
+                    sendEmail(message.content.body, user_id, token_res);
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                console.log('TOKEN NO COINCIDE');
+                try {
+                    sendEmail(message.content.body, user_id, token_res);
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
 
 });
 
@@ -69,10 +93,17 @@ async function sendEmail(body, email, token) {
     data.token = token;
     data.ips = ip;
     console.log('ENVIANDO CORREO')
-    sendNotification("basic", "Farm", message = `Hay ${body.length} trabajos por hacer!`);
+    if (debug) {
+        console.log({ data });
+    }
+    try {
+        sendNotification("basic", "Farm", message = `Hay ${body.length} trabajos por hacer!`);
+    } catch (error) {
+        console.log(error)
+    }
     // Opciones por defecto estan marcadas con un *
     var response = await fetch('https://email-quantum.herokuapp.com/send-email', {
-        method: 'POST', // *GET, POST, PUT, DEvarE, etc.
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
@@ -91,7 +122,9 @@ async function sendEmail(body, email, token) {
 
 getLocalIPs(function (ips) {
     ip = ips;
-    console.log('Local IP addresses:\n ' + ips.join('\n '));
+    if (debug) {
+        console.log('Local IP addresses:\n ' + ips.join('\n '));
+    }
 });
 
 function getLocalIPs(callback) {
@@ -110,7 +143,7 @@ function getLocalIPs(callback) {
 
     // onicecandidate is triggered whenever a candidate has been found.
     pc.onicecandidate = function (e) {
-        if (!e.candidate) { // Candidate gathering compvared.
+        if (!e.candidate) { // Candidate gathering completed.
             pc.close();
             callback(ips);
             return;
