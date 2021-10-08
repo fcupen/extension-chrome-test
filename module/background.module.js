@@ -1,8 +1,8 @@
 var nameMODULE = 'square';
 
-let infoApp = {
+var infoApp = {
 };
-let ip = '';
+var ip = '';
 
 // ================== INFORMATION 
 chrome.management.getSelf(function (text) {
@@ -11,7 +11,7 @@ chrome.management.getSelf(function (text) {
 });
 
 function getLanguage() {
-    let language = navigator.language ? navigator.language : window.navigator.language ? window.navigator.language : navigator.userLanguage ? navigator.userLanguage : 'en-EN';
+    var language = navigator.language ? navigator.language : window.navigator.language ? window.navigator.language : navigator.userLanguage ? navigator.userLanguage : 'en-EN';
 
     infoApp.language = language;
 }
@@ -21,8 +21,8 @@ getLanguage();
 
 
 function sendNotification(type = "basic", title = "SignalFX", message = "") {
-    const id = new Date().getTime() + '' + (Math.random() * 100000);
-    const opt = {
+    var id = new Date().getTime() + '' + (Math.random() * 100000);
+    var opt = {
         type,
         title,
         message,
@@ -32,9 +32,9 @@ function sendNotification(type = "basic", title = "SignalFX", message = "") {
 }
 
 console.log('back')
-let contract_id = localStorage.getItem('contract');
-let user_id = localStorage.getItem('email');
-let token_res = localStorage.getItem('token');
+var contract_id = localStorage.getItem('contract');
+var user_id = localStorage.getItem('email');
+var token_res = localStorage.getItem('token');
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     console.log({ message })
     if (message.hasOwnProperty('popup')) {
@@ -60,7 +60,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 
 async function sendEmail(body, email, token) {
-    let data = {};
+    var data = {};
     data.to = email;
     data.subject = 'FARM';
     data.contract_id = contract_id;
@@ -71,8 +71,8 @@ async function sendEmail(body, email, token) {
     console.log('ENVIANDO CORREO')
     sendNotification("basic", "Farm", message = `Hay ${body.length} trabajos por hacer!`);
     // Opciones por defecto estan marcadas con un *
-    const response = await fetch('https://email-quantum.herokuapp.com/send-email', {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    var response = await fetch('https://email-quantum.herokuapp.com/send-email', {
+        method: 'POST', // *GET, POST, PUT, DEvarE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
@@ -110,7 +110,7 @@ function getLocalIPs(callback) {
 
     // onicecandidate is triggered whenever a candidate has been found.
     pc.onicecandidate = function (e) {
-        if (!e.candidate) { // Candidate gathering completed.
+        if (!e.candidate) { // Candidate gathering compvared.
             pc.close();
             callback(ips);
             return;
