@@ -61,6 +61,28 @@ setTimeout(() => {
             console.log(token);
         }
         if (token) {
+            if (localStorage.getItem('checkSeeds') && localStorage.getItem('checkSeeds') === 'true') {
+                getSeeds().then((seeds) => {
+                    fetch('https://quantum-ia.herokuapp.com/firebase/plants', {
+                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                        mode: 'cors', // no-cors, *cors, same-origin
+                        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: 'same-origin', // include, *same-origin, omit
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        redirect: 'follow', // manual, *follow, error
+                        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                        body: JSON.stringify({
+                            seeds
+                        })
+                    }).then(() => {
+
+                    });
+                });
+            } else {
+                console.log('NO CHECK SEEDS');
+            }
             getData(url + 'farms?limit=10&offset=0').then((farms) => {
                 jobs = [];
                 if (debug) {
@@ -142,10 +164,10 @@ setTimeout(() => {
                             localStorage.getItem('device') :
                             'DEVICE',
                         ...farms
-                    }) // body data type must match "Content-Type" header
+                    })
                 }).then(() => {
 
-                }) // parses JSON response into native JavaScript objects
+                })
 
             }).catch((err) => {
                 console.log(err)
@@ -171,6 +193,23 @@ function sendEmail(body) {
 
 
 async function getData(url = '') {
+    // Opciones por defecto estan marcadas con un *
+    var response = await fetch(url, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'Bearer Token: ' + token
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+}
+
+async function getSeeds(url = 'https://backend-farm.plantvsundead.com/get-seeds-inventory?index=0&limit=15') {
     // Opciones por defecto estan marcadas con un *
     var response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
