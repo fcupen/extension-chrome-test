@@ -81,7 +81,13 @@ setTimeout(() => {
                             seeds
                         })
                     }).then(() => {
+                        try {
+                            if (seeds.data.seeds.length === 0) {
+                                localStorage.setItem('checkSeeds', 'false')
+                            }
+                        } catch (error) {
 
+                        }
                     });
                 });
             } else {
