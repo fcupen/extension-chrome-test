@@ -5,6 +5,13 @@ var token = '';
 var device = '';
 var jobs = [];
 
+setTimeout(() => {
+    if (window.location.toString().includes('worldtree')) {
+        var canv = document.getElementsByTagName('canvas')
+        canv[0].parentNode.removeChild(canv[0])
+        console.log('REMOVE')
+    }
+}, 10000);
 
 var enableSendEmail = false;
 var debug = localStorage.getItem('ENABLE_DEBUG') && localStorage.getItem('ENABLE_DEBUG') === 'true' ? true : false;
