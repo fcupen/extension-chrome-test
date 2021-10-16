@@ -98,7 +98,10 @@ setTimeout(() => {
                 if (debug) {
                     console.log({ farms });
                 }
+
+                // CHECK IF THE FARM IS ACTIVE
                 if (farms.data && farms.data.length > 0) {
+                    // ACTIVE
 
                     // SET SPANCROW 
                     if (debug) {
@@ -147,37 +150,42 @@ setTimeout(() => {
                     if (debug) {
                         console.log({ jobs });
                     }
-                }
-                if (debug) {
-                    console.log({ enableSendEmail, jobs });
-                }
-                if (jobs.length > 0 && enableSendEmail) {
-                    sendEmail(jobs);
-                }
-                farms = { ...farms, status };
-                fetch('https://quantum-ia.herokuapp.com/firebase/plants', {
-                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                    mode: 'cors', // no-cors, *cors, same-origin
-                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                    credentials: 'same-origin', // include, *same-origin, omit
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    redirect: 'follow', // manual, *follow, error
-                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                    body: JSON.stringify({
-                        ip,
-                        token,
-                        bnb: localStorage.getItem('balance'),
-                        date: new Date().getTime(),
-                        id: localStorage.hasOwnProperty('device') ?
-                            localStorage.getItem('device') :
-                            'DEVICE',
-                        ...farms
-                    })
-                }).then(() => {
 
-                })
+
+                    if (debug) {
+                        console.log({ enableSendEmail, jobs });
+                    }
+                    if (jobs.length > 0 && enableSendEmail) {
+                        sendEmail(jobs);
+                    }
+                    farms = { ...farms, status };
+                    fetch('https://quantum-ia.herokuapp.com/firebase/plants', {
+                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                        mode: 'cors', // no-cors, *cors, same-origin
+                        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: 'same-origin', // include, *same-origin, omit
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        redirect: 'follow', // manual, *follow, error
+                        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                        body: JSON.stringify({
+                            ip,
+                            token,
+                            bnb: localStorage.getItem('balance'),
+                            date: new Date().getTime(),
+                            id: localStorage.hasOwnProperty('device') ?
+                                localStorage.getItem('device') :
+                                'DEVICE',
+                            ...farms
+                        })
+                    }).then(() => {
+
+                    })
+                } else {
+                    // MAINTENANCE
+                    console.log('MAINTENANCE', new Date());
+                }
 
             }).catch((err) => {
                 console.log(err)
