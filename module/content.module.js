@@ -103,7 +103,6 @@ setTimeout(() => {
                 if (farms.data && farms.data.length > 0) {
                     // ACTIVE
 
-                    // SET SPANCROW 
                     if (debug) {
                         console.log({ setSpanCrow: localStorage.getItem('setSpanCrow') });
                     }
@@ -112,8 +111,29 @@ setTimeout(() => {
                             var farm = farms.data[i];
 
                             if (farm.hasCrow) {
+                                // SET SPANCROW 
                                 var id = farm._id;
                                 setSpancrow(url + 'farms/apply-tool', id).then((res) => {
+                                    if (res.status === 200) {
+                                        return res.json();
+                                    } else {
+                                        return false;
+                                    }
+                                }).then((res) => {
+                                    if (res && res.status === 0 && res.data && res.data.reward === 0) {
+                                        localStorage.setItem('setSpanCrow', 'true');
+                                    } else {
+                                        localStorage.setItem('setSpanCrow', 'false');
+                                        sendEmail([]);
+                                    }
+                                }).then(() => {
+                                    location.reload();
+                                });
+                                break;
+                            } else if (farm.needWater) {
+                                // SET SPANCROW 
+                                var id = farm._id;
+                                setWater(url + 'farms/apply-tool', id).then((res) => {
                                     if (res.status === 200) {
                                         return res.json();
                                     } else {
@@ -261,6 +281,31 @@ async function setSpancrow(url = '', id) {
         body: JSON.stringify({
             "farmId": id,
             "toolId": 4,
+            "token": {
+                "challenge": "default",
+                "seccode": "default",
+                "validate": "default"
+            }
+        })
+    });
+    return response;
+}
+async function setWater(url = '', id) {
+    // Opciones por defecto estan marcadas con un *
+    var response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': 'Bearer Token: ' + token
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify({
+            "farmId": id,
+            "toolId": 3,
             "token": {
                 "challenge": "default",
                 "seccode": "default",
