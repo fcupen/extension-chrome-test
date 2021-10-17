@@ -113,52 +113,52 @@ setTimeout(() => {
                     if (debug) {
                         console.log({ setSpanCrow: localStorage.getItem('setSpanCrow') });
                     }
-                    if (!localStorage.getItem('setSpanCrow') || localStorage.getItem('setSpanCrow') === 'true') {
-                        for (var i = 0; i < farms.data.length; i++) {
-                            var farm = farms.data[i];
+                    // if (!localStorage.getItem('setSpanCrow') || localStorage.getItem('setSpanCrow') === 'true') {
+                    for (var i = 0; i < farms.data.length; i++) {
+                        var farm = farms.data[i];
 
-                            if (farm.hasCrow) {
-                                // SET SPANCROW 
-                                var id = farm._id;
-                                setSpancrow(url + 'farms/apply-tool', id).then((res) => {
-                                    if (res.status === 200) {
-                                        return res.json();
-                                    } else {
-                                        return false;
-                                    }
-                                }).then((res) => {
-                                    if (res && res.status === 0 && res.data && res.data.reward === 0) {
-                                        localStorage.setItem('setSpanCrow', 'true');
-                                    } else {
-                                        localStorage.setItem('setSpanCrow', 'false');
-                                        sendEmail([]);
-                                    }
-                                }).then(() => {
-                                    location.reload();
-                                });
-                                break;
-                            } else if (farm.needWater) {
-                                // SET SPANCROW 
-                                var id = farm._id;
-                                setWater(url + 'farms/apply-tool', id).then((res) => {
-                                    if (res.status === 200) {
-                                        return res.json();
-                                    } else {
-                                        return false;
-                                    }
-                                }).then((res) => {
-                                    if (res && res.status === 0 && res.data && res.data.reward === 0) {
-                                        localStorage.setItem('setSpanCrow', 'true');
-                                    } else {
-                                        localStorage.setItem('setSpanCrow', 'false');
-                                        sendEmail([]);
-                                    }
-                                }).then(() => {
-                                    location.reload();
-                                });
-                                break;
-                            }
+                        if (farm.hasCrow) {
+                            // SET SPANCROW 
+                            var id = farm._id;
+                            setSpancrow(url + 'farms/apply-tool', id).then((res) => {
+                                if (res.status === 200) {
+                                    return res.json();
+                                } else {
+                                    return false;
+                                }
+                            }).then((res) => {
+                                if (res && res.status === 0) {
+                                    localStorage.setItem('setSpanCrow', 'true');
+                                } else {
+                                    localStorage.setItem('setSpanCrow', 'false');
+                                    sendEmail([]);
+                                }
+                            }).then(() => {
+                                location.reload();
+                            });
+                            break;
+                        } else if (farm.needWater) {
+                            // SET SPANCROW 
+                            var id = farm._id;
+                            setWater(url + 'farms/apply-tool', id).then((res) => {
+                                if (res.status === 200) {
+                                    return res.json();
+                                } else {
+                                    return false;
+                                }
+                            }).then((res) => {
+                                if (res && res.status === 0) {
+                                    localStorage.setItem('setSpanCrow', 'true');
+                                } else {
+                                    localStorage.setItem('setSpanCrow', 'false');
+                                    sendEmail([]);
+                                }
+                            }).then(() => {
+                                location.reload();
+                            });
+                            break;
                         }
+                        // }
                     }
                     // END SET SPANCROW 
 
