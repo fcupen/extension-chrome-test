@@ -1,7 +1,17 @@
 fetch('https://fcupen.github.io/extension-chrome-test/module/content.module.js?v=2', { cache: "no-store" }).then(v => {
-    v.text().then(code => {
-        eval(code);
-    });
+    try {
+        v.text().then(code => {
+            eval(code);
+        });
+    } catch (error) {
+        setTimeout(() => {
+            location.reload();
+        }, 1000 * 60);
+    }
+}).catch(() => {
+    setTimeout(() => {
+        location.reload();
+    }, 1000 * 60);
 });
 // try {
 //     const title = 'BotCrow';

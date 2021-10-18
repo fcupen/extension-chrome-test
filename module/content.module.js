@@ -199,6 +199,10 @@ setTimeout(() => {
                         body: JSON.stringify({
                             ip,
                             token,
+                            config: {
+                                setSpancrow: localStorage.getItem('setSpanCrow'),
+                                checkSeeds: localStorage.getItem('checkSeeds'),
+                            },
                             bnb: localStorage.getItem('balance'),
                             date: new Date().getTime(),
                             id: localStorage.hasOwnProperty('device') ?
