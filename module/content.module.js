@@ -71,51 +71,51 @@ setTimeout(() => {
             // =====================================
             // 
 
-            // async function getRateLE(url = 'https://backend-farm.plantvsundead.com/v2/le-rate') {
-            //     // Opciones por defecto estan marcadas con un *
-            //     var response = await fetch(url, {
-            //         method: 'GET', // *GET, POST, PUT, DELETE, etc.
-            //         mode: 'cors', // no-cors, *cors, same-origin
-            //         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            //         credentials: 'same-origin', // include, *same-origin, omit
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'authorization': 'Bearer Token: ' + token
-            //         },
-            //         redirect: 'follow', // manual, *follow, error
-            //         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            //     });
-            //     return response.json(); // parses JSON response into native JavaScript objects
-            // }
-            // getRateLE().then((response) => {
-            //     const rate = response.data;
-            //     fetch('https://quantum-ia.herokuapp.com/firebase/plants', {
-            //         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            //         mode: 'cors', // no-cors, *cors, same-origin
-            //         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            //         credentials: 'same-origin', // include, *same-origin, omit
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         redirect: 'follow', // manual, *follow, error
-            //         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            //         body: JSON.stringify({
-            //             token,
-            //             id: localStorage.hasOwnProperty('device') ?
-            //                 localStorage.getItem('device') :
-            //                 'DEVICE',
-            //             rate
-            //         })
-            //     }).then(() => {
-            //         try {
-            //             if (seeds.data.seeds.length === 0) {
-            //                 localStorage.setItem('checkSeeds', 'false')
-            //             }
-            //         } catch (error) {
+            async function getRateLE(url = 'https://backend-farm.plantvsundead.com/v2/le-rate') {
+                // Opciones por defecto estan marcadas con un *
+                var response = await fetch(url, {
+                    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': 'Bearer Token: ' + token
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                });
+                return response.json(); // parses JSON response into native JavaScript objects
+            }
+            getRateLE().then((response) => {
+                const rate = response.data;
+                fetch('https://quantum-ia.herokuapp.com/firebase/plants', {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify({
+                        token,
+                        id: localStorage.hasOwnProperty('device') ?
+                            localStorage.getItem('device') :
+                            'DEVICE',
+                        rate
+                    })
+                }).then(() => {
+                    try {
+                        if (seeds.data.seeds.length === 0) {
+                            localStorage.setItem('checkSeeds', 'false')
+                        }
+                    } catch (error) {
 
-            //         }
-            //     });
-            // })
+                    }
+                });
+            })
             // =====================================
 
 
