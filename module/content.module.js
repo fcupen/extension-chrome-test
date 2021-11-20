@@ -129,6 +129,7 @@ setTimeout(() => {
                 seeds,
                 plants,
                 trees,
+                status
               }),
             }).then(() => {});
           });
